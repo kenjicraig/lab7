@@ -1,58 +1,47 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Multiplication Table</title>
     <style>
         table {
             border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
         }
-
-        th,
-        td {
-            border: 1px solid black;
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
             padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
         }
     </style>
 </head>
-
 <body>
     <h2>Multiplication Table</h2>
-
+    <form method="post" action="">
+        Enter a number:
+        <input type="number" name="number" required>
+        <input type="submit" value="Generate Table">
+    </form>
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $size = isset($_POST["size"]) ? (int)$_POST["size"] : 0;
-
-        if ($size <= 0) {
-            echo "<p>Please enter a valid number for the size of the multiplication table.</p>";
-        } else {
-            echo "<table>";
-            echo "<tr><th></th>"; // Empty cell for the top-left corner
-
-            // Header row with column indexes
-            for ($col = 1; $col <= $size; $col++) {
-                echo "<th>$col</th>";
+        $number = $_POST["number"];
+        echo "<h3>Multiplication Table up to $number</h3>";
+        echo "<table>";
+        echo "<tr><th>&times;</th>";
+        for ($i = 1; $i <= $number; $i++) {
+            echo "<th>$i</th>";
+        }
+        echo "</tr>";
+        for ($i = 1; $i <= $number; $i++) {
+            echo "<tr><th>$i</th>";
+            for ($j = 1; $j <= $number; $j++) {
+                echo "<td>" . ($i * $j) . "</td>";
             }
             echo "</tr>";
-
-            // Table body with row indexes and multiplication results
-            for ($row = 1; $row <= $size; $row++) {
-                echo "<tr>";
-                echo "<th>$row</th>"; // Row index
-                for ($col = 1; $col <= $size; $col++) {
-                    $result = $row * $col;
-                    echo "<td>$result</td>";
-                }
-                echo "</tr>";
-            }
-            echo "</table>";
         }
+        echo "</table>";
     }
     ?>
 </body>
-
 </html>
+

@@ -1,34 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <h1>EECS 348 Lab Seven Practice Two</h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Font Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .custom-paragraph {
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        #colorInput {
+            width: 100px;
+        }
+
+        #borderWidthInput {
+            width: 50px;
+        }
+    </style>
 </head>
 
-
-<style>
-    #paragraph {
-        border-style: solid;
-        border-width: 5px;
-    }
-</style>
-
 <body>
-    <div id="paragraph">
-
-
-        Paragraph to be altered.
-
+    <div class="container">
+        <h2>CSS Font Control</h2>
+        <label for="colorInput">Enter RGB value (e.g., 255, 0, 0 for red): </label>
+        <input type="text" id="colorInput">
+        <label for="borderWidthInput">Border Width (px): </label>
+        <input type="text" id="borderWidthInput">
+        <button onclick="applyStyles()">Apply</button>
+        <div class="custom-paragraph" id="customParagraph">
+            We’re motivated to make sense of our environment, 
+            and that includes filling in details when our brains 
+            perceive them as missing. But often these stories we 
+            tell ourselves are inaccurate and cause us to waste our 
+            time and energy in ways that don’t serve us well. What 
+            causes this and – more importantly – how do we stop it from derailing us?
+        </div>
     </div>
 
-    <script type="text/javascript" src="functions.js"></script>
-    Border R(0-255): <input type="text" id="border_R" value=""> <br>
-    Border G(0-255): <input type="text" id="border_G" value=""> <br>
-    Border B(0-255): <input type="text" id="border_B" value=""> <br>
-    Border Width: <input type="text" id="border_width" value=""> <br>
-    Background R(0-255): <input type="text" id="bg_R" value=""> <br>
-    Background G(0-255): <input type="text" id="bg_G" value=""> <br>
-    Background B(0-255): <input type="text" id="bg_B" value=""> <br>
-    <button onclick="alert_paragraph_color()">Change the color!</button> <br>
+    <script>
+        function applyStyles() {
+            var colorInputValue = document.getElementById('colorInput').value;
+            var borderWidthInputValue = document.getElementById('borderWidthInput').value;
+            var customParagraph = document.getElementById('customParagraph');
+
+            var rgbValues = colorInputValue.split(',').map(function (value) {
+                return parseInt(value.trim());
+            });
+
+            if (rgbValues.length === 3 && rgbValues.every(function (value) {
+                return !isNaN(value) && value >= 0 && value <= 255;
+            })) {
+                var rgbColor = 'rgb(' + rgbValues.join(',') + ')';
+                customParagraph.style.color = rgbColor;
+                customParagraph.style.borderColor = rgbColor;
+            } else {
+                alert('Please enter valid RGB values (0-255) separated by commas.');
+            }
+
+            var borderWidth = parseInt(borderWidthInputValue);
+            if (!isNaN(borderWidth)) {
+                customParagraph.style.borderWidth = borderWidth + 'px';
+            } else {
+                alert('Please enter a valid border width value.');
+            }
+        }
+    </script>
 </body>
 
 </html>
